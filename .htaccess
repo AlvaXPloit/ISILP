@@ -1,0 +1,34 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# ==============================
+# ✅ ALLOW GOOGLE VERIFICATION
+# ==============================
+RewriteCond %{REQUEST_URI} ^/google.*\.html$ [NC]
+RewriteRule ^ - [L]
+
+# ==============================
+# DEFAULT CI
+# ==============================
+RewriteRule ^index\.php$ - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# ==============================
+# HOTLINK PROTECTION (IMAGE ONLY)
+# ==============================
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?mtsn2mukomuko\.sch\.id [NC]
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?maalhidayah\.mtsn2mukomuko\.sch\.id [NC]
+RewriteRule \.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
+
+# ==============================
+# PHP HANDLER
+# ==============================
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php72___lsphp .php .php7 .phtml
+</IfModule>
